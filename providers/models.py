@@ -22,7 +22,7 @@ class Category(BaseModel):
 
 class Skill(BaseModel):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name="skills")
     name = models.CharField(max_length=150, unique=True)
 
     class Meta:

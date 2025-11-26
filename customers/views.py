@@ -3,9 +3,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from accounts.permissions import IsCustomer
-from providers.models import ProviderProfile, Availabilty
+from providers.models import ProviderProfile, Availabilty,Category
 from urban_services.utils import standard_message
-from .serializer import ProviderAvailableSerializer
+from .serializer import ProviderAvailableSerializer,CategorySerializer
 from .swagger_schema import provideravailableschema
 
 
@@ -28,3 +28,13 @@ class ProviderAvailableAPIView(APIView):
         serializer_class = ProviderAvailableSerializer(provider_available, many=True)
         return standard_message(message="Provider availablity datas", data=serializer_class.data,
                                 status_code=status.HTTP_200_OK)
+
+
+
+class ProviderViewCategoryAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsCustomer]
+
+    def get(self, request):
+        queryset = Category.objects.prefetch_related("skills")
+        serializer_class = CategorySerializer(queryset, many=True)
+        return standard_message(message="category list", data=serializer_class.data, status_code=status.HTTP_200_OK)

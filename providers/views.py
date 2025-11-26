@@ -5,7 +5,7 @@ from providers.models import Category
 from accounts.permissions import IsProvider
 from bookings.models import Booking
 from urban_services.utils import standard_message
-from .serializer import ProviderProfileSerializer, ProviderSlotSerializer, CategorySerializer
+from .serializer import ProviderProfileSerializer, ProviderSlotSerializer
 from .swagger_schema import providerprofileschema, availableslotschema
 
 
@@ -40,10 +40,3 @@ class ProviderSlotAPIView(APIView):
                                 status_code=status.HTTP_201_CREATED)
 
 
-class ProviderCategoryAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        queryset = Category.objects.prefetch_related("skills")
-        serializer_class = CategorySerializer(queryset, many=True)
-        return standard_message(message="category list", data=serializer_class.data, status_code=status.HTTP_200_OK)

@@ -109,14 +109,3 @@ class ProviderSlotSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(str(e))
 
 
-class SkillSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Skill
-        fields = ["id", "name"]
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    skills = SkillSerializer(many=True)
-    class Meta:
-        model = Category
-        fields = ["id", "name", "skills"]
